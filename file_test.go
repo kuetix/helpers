@@ -5,7 +5,6 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 	"time"
 )
@@ -255,36 +254,6 @@ func TestGetRootPathGoMod(t *testing.T) {
 			t.Fatalf("expected os.ErrNotExist, got %v", err)
 		}
 	})
-}
-
-func TestModulesImportPath(t *testing.T) {
-	root := t.TempDir()
-	withChdir(t, root)
-
-	in := filepath.Join(root, "internal", "pkg")
-	got := ModulesImportPath(in)
-
-	wd, err := os.Getwd()
-	if err != nil {
-		t.Fatalf("getwd: %v", err)
-	}
-	relPath, err := os.Readlink(wd)
-	if err != nil {
-		relPath = wd
-	}
-	expected := in
-	if relPath != "" {
-		expected = strings.Replace(in, relPath+"/", "", 1)
-	}
-
-	if got != expected {
-		t.Fatalf("expected relative path, got %q", got)
-	}
-
-	outside := "/tmp/another/module"
-	if got := ModulesImportPath(outside); got != outside {
-		t.Fatalf("expected unchanged outside path, got %q", got)
-	}
 }
 
 func TestCleanSlashes_CurrentBehavior(t *testing.T) {

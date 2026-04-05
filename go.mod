@@ -1,4 +1,4 @@
-module helpers
+module github.com/kuetix/helpers
 
 go 1.26.1
 

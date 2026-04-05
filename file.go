@@ -98,23 +98,6 @@ func GetRootPathGoMod() (string, error) {
 	return moduleRoot, nil
 }
 
-// ModulesImportPath returns the path to the modules directory.
-//
-//goland:noinspection GoUnusedExportedFunction
-func ModulesImportPath(path string) string {
-	wd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	relPath, err := os.Readlink(wd)
-	if err != nil {
-		relPath = wd
-	}
-	modulesImportPath := strings.Replace(path, relPath+"/", "", 1)
-
-	return modulesImportPath
-}
-
 // FindFileUp searches for a file in the current directory and its parent directories.
 // It returns the path to the file if found, or an error if the file is not found.
 //
